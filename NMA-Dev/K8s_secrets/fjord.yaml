@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fjord
+type: Opaque
+stringData:
+  INFLUXDB_TOKEN: 'fake'
+  JWT_PRIVATE_KEY: 'fake'
+  JWT_PUBLIC_KEY: 'fake'
+  LDAP_ADMIN_PASSWORD: 'fake'
+  POSTGRES_PASSWORD: 'fake'
+  RABBITMQ_PASSWORD: 'fake'
+  SECRET_KEY: 'fake'
+  UDM_POSTGRES_PASSWORD: 'fake'
