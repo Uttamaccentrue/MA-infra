@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Centeral Graphql service
+name: graphql
+version: 0.1.0

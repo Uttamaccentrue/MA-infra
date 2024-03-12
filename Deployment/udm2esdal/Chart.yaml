@@ -1,0 +1,4 @@
+apiVersion: v1
+description: UDM Datebase to Elasticsearch Dal service
+name: udm2esdal
+version: 0.1.0

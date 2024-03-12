@@ -1,0 +1,91 @@
+# Default values for example-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Nameing of the service and DNS naming
+nameOverride: 'graphql'
+fullnameOverride: 'graphql'
+
+## Number of replicas of the Pod
+replicaCount: 3
+
+## Image details
+image:
+  repository: maportalrepo.azurecr.io/graphql
+  tag: latest
+  pullPolicy: Always
+
+## Environment Variables for the container
+envvar:
+  LOG_LEVEL: "info"
+  CORS_ORIGIN: 'http://localhost'
+  POSTGRES_USER: 'udmuser'
+  POSTGRES_HOST: 'madb.postgres.database.azure.com'
+  POSTGRES_PORT: '5432'
+  POSTGRES_DB: 'udm'
+  DIFFBOT_POSTGRES_HOST: 'fake'
+  DIFFBOT_POSTGRES_DB: 'fake'
+  DIFFBOT_POSTGRES_USER: 'fake'
+  BRAINDB_HOST: 'fake'
+  BRAINDB_DATABASE: 'fake'
+  BRAINDB_USER: 'fake'
+  RMQ_DISABLED: "true"
+  RABBITMQ_USER: 'fake'
+  RABBITMQ_HOST: 'fake'
+  RABBITMQ_PORT: 'fake'
+  QUOTE_EXTRACTOR_ID: 'fake'
+  QUOTE_DUPLICATE_HOST: 'fake'
+  QUOTE_DUPLICATE_PORT: 'fake'
+  SAGEMAKER_API_KEY: 'fake'
+  SAGEMAKER_API_REGION: 'fake'
+  CORTEX_HOST: 'fake'
+  CORTEX_PORT: 'fake'
+  TRANSLATOR_HOST: 'nfake'
+  TRANSLATOR_PORT: 'fake'
+  INFLUX_ML_DISABLED: 'true'
+  INFLUX_ML_HOST: 'fake-influxdb'
+  INFLUX_ML_PORT: 'fake'
+  INFLUX_ML_DATABASE: 'fake'
+  ENABLE_PLAYGROUND: 'false'
+  JWT_PUBLIC_KEY_FILE: '/opt/JWT_PUBLIC_KEY'
+  ELASTIC_HOST: '10.224.0.100'
+  ELASTIC_PORT: 9200
+  AZURE_SUBSCRIPTION_ID: 'false'
+  AAD_TENANT_DOMAIN: 'false'
+  AMS_RESOURCE_GROUP: 'false'
+  AMS_ACCOUNT_NAME: 'false'
+  AMS_CONTENT_KEY_POLICY_NAME: 'false'
+  AMS_STREAMING_POLICY_NAME: 'false'
+  AMS_JWT_ISSUER: 'false'
+  AMS_JWT_AUDIENCE: 'false'
+  SINDAR_HOST: "sindar"
+  SINDAR_PORT: "8000"
+  SCHEDULER_SERVICE_HOST: 'false'
+  SUMMARIZER_SERVICE_HOST: 'false'
+  ANOMALY_DETECTION_SERVICE_HOST: 'false'
+  QUERY_RUNNER_SERVICE_HOST: 'false'
+  MAIL_DEFAULT_SENDER: 'false'
+  MAIL_HOST: 'false'
+  MAIL_PORT: 'false'
+
+## Service details
+## LoadBalancer => External Load Balancer - (Allows Internet traffic in)
+## ClusterIP => Internal Load Balancer (Default)
+service:
+  type: ClusterIP
+  port: 7003
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  #limits:
+  #  cpu: .5
+  #  memory: 500Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+affinity: {}

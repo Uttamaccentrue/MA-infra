@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: udm2esdal
+type: Opaque
+stringData:
+  DAL_UDM_PASS: 'fake'
+
+    

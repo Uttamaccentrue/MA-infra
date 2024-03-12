@@ -1,0 +1,199 @@
+{{- $fullName := .Values.fullnameOverride -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ $fullName }}
+    helm.sh/chart: {{ $fullName }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $fullName }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $fullName }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ## Commented out. Commands are used for debuging and troubleshooting
+          #command: ["tail"]
+          #args: ["-f", "/dev/null"]
+          env:
+          - name: LOG_LEVEL
+            value: {{ .Values.envvar.LOG_LEVEL | quote }}
+          - name: CORS_ORIGIN
+            value: {{ .Values.envvar.CORS_ORIGIN | quote }}
+          - name: POSTGRES_USER
+            value: {{ .Values.envvar.POSTGRES_USER | quote }}
+          - name: POSTGRES_HOST
+            value: {{ .Values.envvar.POSTGRES_HOST | quote }}
+          - name: POSTGRES_PORT
+            value: {{ .Values.envvar.POSTGRES_PORT | quote }}
+          - name: POSTGRES_DB
+            value: {{ .Values.envvar.POSTGRES_DB | quote }}
+          - name: DIFFBOT_POSTGRES_HOST
+            value: {{ .Values.envvar.DIFFBOT_POSTGRES_HOST | quote }}
+          - name: DIFFBOT_POSTGRES_DB
+            value: {{ .Values.envvar.DIFFBOT_POSTGRES_DB | quote }}
+          - name: DIFFBOT_POSTGRES_USER
+            value: {{ .Values.envvar.DIFFBOT_POSTGRES_USER | quote }}
+          - name: BRAINDB_HOST
+            value: {{ .Values.envvar.BRAINDB_HOST | quote }}
+          - name: BRAINDB_DATABASE
+            value: {{ .Values.envvar.BRAINDB_DATABASE | quote }}
+          - name: BRAINDB_USER
+            value: {{ .Values.envvar.BRAINDB_USER | quote }}
+          - name: RMQ_DISABLED
+            value: {{ .Values.envvar.RMQ_DISABLED | quote }}
+          - name: RABBITMQ_USER
+            value: {{ .Values.envvar.RABBITMQ_USER | quote }}
+          - name: RABBITMQ_HOST
+            value: {{ .Values.envvar.RABBITMQ_HOST | quote }}
+          - name: RABBITMQ_PORT
+            value: {{ .Values.envvar.RABBITMQ_PORT | quote }}
+          - name: QUOTE_EXTRACTOR_ID
+            value: {{ .Values.envvar.QUOTE_EXTRACTOR_ID | quote }}
+          - name: QUOTE_DUPLICATE_PORT
+            value: {{ .Values.envvar.QUOTE_DUPLICATE_PORT | quote }}
+          - name: SAGEMAKER_API_KEY
+            value: {{ .Values.envvar.SAGEMAKER_API_KEY | quote }}
+          - name: SAGEMAKER_API_REGION
+            value: {{ .Values.envvar.SAGEMAKER_API_REGION | quote }}
+          - name: CORTEX_HOST
+            value: {{ .Values.envvar.CORTEX_HOST | quote }}
+          - name: CORTEX_PORT
+            value: {{ .Values.envvar.CORTEX_PORT | quote }}
+          - name: TRANSLATOR_HOST
+            value: {{ .Values.envvar.TRANSLATOR_HOST | quote }}
+          - name: TRANSLATOR_PORT
+            value: {{ .Values.envvar.TRANSLATOR_PORT | quote }}
+          - name: INFLUX_ML_DISABLED
+            value: {{ .Values.envvar.INFLUX_ML_DISABLED | quote }}
+          - name: INFLUX_ML_HOST
+            value: {{ .Values.envvar.INFLUX_ML_HOST | quote }}
+          - name: INFLUX_ML_PORT
+            value: {{ .Values.envvar.INFLUX_ML_PORT | quote }}
+          - name: INFLUX_ML_DATABASE
+            value: {{ .Values.envvar.INFLUX_ML_DATABASE | quote }}
+          - name: ENABLE_PLAYGROUND
+            value: {{ .Values.envvar.ENABLE_PLAYGROUND | quote }}
+          - name: JWT_PUBLIC_KEY_FILE
+            value: {{ .Values.envvar.JWT_PUBLIC_KEY_FILE | quote }}
+          - name: ELASTIC_HOST
+            value: {{ .Values.envvar.ELASTIC_HOST | quote }}
+          - name: ELASTIC_PORT
+            value: {{ .Values.envvar.ELASTIC_PORT | quote }}
+          - name: SCHEDULER_URL
+            value: {{ .Values.envvar.SCHEDULER_SERVICE_HOST | quote }}
+          - name: SUMMARIZER_URL
+            value: {{ .Values.envvar.SUMMARIZER_SERVICE_HOST | quote }}
+          - name: QUERY_RUNNER_URL
+            value: {{ .Values.envvar.QUERY_RUNNER_SERVICE_HOST | quote }}
+          - name: AZURE_SUBSCRIPTION_ID
+            value: {{ .Values.envvar.AZURE_SUBSCRIPTION_ID | quote }}
+          - name: AAD_TENANT_DOMAIN
+            value: {{ .Values.envvar.AAD_TENANT_DOMAIN | quote }}
+          - name: AMS_RESOURCE_GROUP
+            value: {{ .Values.envvar.AMS_RESOURCE_GROUP | quote }}
+          - name: AMS_ACCOUNT_NAME
+            value: {{ .Values.envvar.AMS_ACCOUNT_NAME | quote }}
+          - name: AMS_CONTENT_KEY_POLICY_NAME
+            value: {{ .Values.envvar.AMS_CONTENT_KEY_POLICY_NAME | quote }}
+          - name: AMS_STREAMING_POLICY_NAME
+            value: {{ .Values.envvar.AMS_STREAMING_POLICY_NAME | quote }}
+          - name: AMS_JWT_ISSUER
+            value: {{ .Values.envvar.AMS_JWT_ISSUER | quote }}
+          - name: AMS_JWT_AUDIENCE
+            value: {{ .Values.envvar.AMS_JWT_AUDIENCE | quote }}
+          - name: SINDAR_HOST
+            value: {{ .Values.envvar.SINDAR_HOST | quote }}
+          - name: SINDAR_PORT
+            value: {{ .Values.envvar.SINDAR_PORT | quote }}
+          - name: ANOMALY_DETECTOR_URL
+            value: {{ .Values.envvar.ANOMALY_DETECTION_SERVICE_HOST | quote }}
+          - name: MAIL_DEFAULT_SENDER
+            value: {{ .Values.envvar.MAIL_DEFAULT_SENDER | quote }}
+          - name: MAIL_HOST
+            value: {{ .Values.envvar.MAIL_HOST | quote }}
+          - name: MAIL_PORT
+            value: {{ .Values.envvar.MAIL_PORT | quote }}
+          - name: AAD_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: AAD_CLIENT_ID
+          - name: AAD_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: AAD_CLIENT_SECRET
+          - name: VIDEO_ADMIN_USER_IDS
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: VIDEO_ADMIN_USER_IDS
+          - name: VIDEO_READ_ONLY_USER_IDS
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: VIDEO_READ_ONLY_USER_IDS
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: POSTGRES_PASSWORD
+          - name: DIFFBOT_POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: DIFFBOT_POSTGRES_PASSWORD
+          - name: BRAINDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: BRIANDB_POSTGRES_PASSWORD
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: RABBITMQ_PASSWORD
+          - name: SAGEMAKER_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: graphql
+                key: SAGEMAKER_API_SECRET
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          volumeMounts:
+          - name: jwt-key
+            mountPath: "/opt"
+            readOnly: true
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+      - name: jwt-key
+        secret:
+          secretName: graphql

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: graphql
+type: Opaque
+stringData:
+  POSTGRES_PASSWORD: 'fake'
+  RDS_DIFFBOT_PASSWORD: 'fake'
+  RABBITMQ_PASSWORD: 'fake'
+  SAGEMAKER_API_SECRET: 'fake'
+  JWT_PUBLIC_KEY: 'fake'
+  AAD_CLIENT_ID: 'fake'
+  AAD_CLIENT_SECRET: 'fake'
+  VIDEO_ADMIN_USER_IDS: 'fake'
+  VIDEO_READ_ONLY_USER_IDS: 'fake'
+  DIFFBOT_POSTGRES_PASSWORD: 'fake'
+  BRIANDB_POSTGRES_PASSWORD: 'fake'
+    

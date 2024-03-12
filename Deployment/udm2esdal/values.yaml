@@ -1,0 +1,46 @@
+# Default values for example-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Nameing of the service and DNS naming
+nameOverride: 'udm2esdal'
+fullnameOverride: 'udm2esdal'
+
+## Number of replicas of the Pod
+replicaCount: 1
+
+## Image details
+image:
+  repository: maportalrepo.azurecr.io/udm2esdal
+  tag: latest
+  pullPolicy: Always
+
+## Environment Variables for the container
+envvar:
+  DAL_APP_BATCH_SIZE: "10"
+  DAL_APP_BATCH_DELAY_MS: "10000"
+  DAL_ES_PROTO: "http"
+  DAL_ES_HOST: "10.224.0.100"
+  DAL_ES_PORT: "9200"
+  DAL_ES_INDEX: "excerpts"
+  DAL_UDM_HOST: "llpdb.postgres.database.azure.com"
+  DAL_UDM_PORT: "5432"
+  DAL_UDM_DB: "udm"
+  DAL_UDM_USER: "maadmin"
+
+
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  #limits:
+  #  cpu: .5
+  #  memory: 500Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+affinity: {}

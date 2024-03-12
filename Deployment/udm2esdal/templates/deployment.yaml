@@ -1,0 +1,61 @@
+{{- $fullName := .Values.fullnameOverride -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ $fullName }}
+    helm.sh/chart: {{ $fullName }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $fullName }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $fullName }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ## Commented out. Commands are used for debuging and troubleshooting
+          #command: ["tail"]
+          #args: ["-f", "/dev/null"]
+          env:
+          - name: DAL_APP_BATCH_SIZE
+            value: {{ .Values.envvar.DAL_APP_BATCH_SIZE | quote }}
+          - name: DAL_APP_BATCH_DELAY_MS
+            value: {{ .Values.envvar.DAL_APP_BATCH_DELAY_MS | quote }}
+          - name: DAL_ES_PROTO
+            value: {{ .Values.envvar.DAL_ES_PROTO | quote }}
+          - name: DAL_ES_HOST
+            value: {{ .Values.envvar.DAL_ES_HOST | quote }}
+          - name: DAL_ES_PORT
+            value: {{ .Values.envvar.DAL_ES_PORT | quote }}
+          - name: DAL_ES_INDEX
+            value: {{ .Values.envvar.DAL_ES_INDEX | quote }}
+          - name: DAL_UDM_HOST
+            value: {{ .Values.envvar.DAL_UDM_HOST | quote }}
+          - name: DAL_UDM_PORT
+            value: {{ .Values.envvar.DAL_UDM_PORT | quote }}
+          - name: DAL_UDM_DB
+            value: {{ .Values.envvar.DAL_UDM_DB | quote }}
+          - name: DAL_UDM_USER
+            value: {{ .Values.envvar.DAL_UDM_USER | quote }}
+          - name: DAL_UDM_PASS
+            valueFrom:
+              secretKeyRef:
+                name: udm2esdal
+                key: DAL_UDM_PASS
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}

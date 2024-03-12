@@ -1,0 +1,94 @@
+# Default values for fjord.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 3
+
+image:
+  repository: maportalrepo.azurecr.io/fjord
+  pullPolicy: Always
+  tag: 0.0.1
+
+imagePullSecrets: []
+
+nameOverride: "fjord"
+fullnameOverride: "fjord"
+securityContext:
+ runAsUser: 1000
+envvar:
+  ENABLE_SESSIONS: true
+  POSTGRES_USER: 'maadmin'
+  POSTGRES_DB: 'portal'
+  POSTGRES_HOST: 'madb.postgres.database.azure.com'
+  POSTGRES_PORT: '5432'
+  ELASTICSEARCH_HOST: '10.1.0.7:9200'
+  ENABLE_MATOMO: 'False'
+  MATOMO_SITE_URL: 'fake'
+  MATOMO_SITE_ID: 'fake'
+  AUTH_SYSTEM: "adlds"
+  LDAP_CONNECTION_STRING: 'ldaps://10.2.0.6:50001'
+  LDAP_SEARCH_BASE: 'CN=portalone,CN=portals,DC=ma,DC=local'
+  LDAP_USER_DN_FORMAT: 'CN={username},CN=portalone,CN=portals,DC=ma,DC=local'
+  LDAP_ADMIN_USERNAME: 'CN=admin,CN=portalone,CN=portals,DC=ma,DC=local'
+  NMA_HOST: 'http://service.production:8080'
+  QAPLUS_HOST: 'fake'
+  CORTEX_HOST: 'fake'
+  HOST: "0.0.0.0"
+  PORT: "8000"
+  RABBITMQ_USER: 'fake'
+  RABBITMQ_HOST: 'fake'
+  RABBITMQ_PORT: '5672'
+  MAWI_HOST: 'fake'
+  MAWI_PORT: '8042'
+  WS_GRAPHQL: 'https://riverbed.afs-nma.com/graphql'
+  WS_SUBSCRIPTIONS: 'wss://riverbed.afs-nma.com/subscriptions'
+  MAIL_SERVER: 'fake'
+  MAIL_PORT: '25'
+  MAIL_USE_TLS: "True"
+  MAIL_USE_SSL: "False"
+  MAIL_DEFAULT_SENDER: 'no-reply@fake.com'
+  ORBIS_HOST: 'fake'
+  UDM_POSTGRES_USER: 'udmuser'
+  UDM_POSTGRES_HOST: 'madb.postgres.database.azure.com'
+  UDM_POSTGRES_DB: "udm"
+  UDM_SCHEMA: "users"
+  LANGCHAIN_HOST: 'fake'
+  LANGCHAIN_PORT: '9000'
+
+secretsRepo: fjord
+
+# Secrets are deployed through another process on production and do not need to be addressed here
+# This is for local setups
+secrets:
+  POSTGRES_PASSWORD: default-password
+  SECRET_KEY: default-secret
+  JWT_PRIVATE_KEY: default-private_key
+  JWT_PUBLIC_KEY: default-public_key
+  LDAP_ADMIN_PASSWORD: ldap-password
+  RABBITMQ_PASSWORD: rabbitmq-password
+  UDM_POSTGRES_PASSWORD: udm-password
+
+## Service details
+## LoadBalancer => External Load Balancer - (Allows Internet traffic in)
+## ClusterIP => Internal Load Balancer (Default)
+service:
+  type: ClusterIP
+  port: '8000'
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

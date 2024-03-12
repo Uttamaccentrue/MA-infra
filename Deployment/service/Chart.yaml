@@ -1,0 +1,4 @@
+apiVersion: v1
+description: NMA JavaScript files
+name: nma-service
+version: 0.1.0

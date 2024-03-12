@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-in
+  labels:
+    run: graphql
+spec:
+  type: NodePort
+  ports:
+  - port: 7003
+    protocol: TCP
+    targetPort: 7003
+  selector:
+    app.kubernetes.io/name: graphql
+  
